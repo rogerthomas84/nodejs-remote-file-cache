@@ -1,0 +1,33 @@
+{
+  "name": "nodejs-remote-file-cache",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": ">= 0.8.9"
+  },
+  "dependencies": {
+    "httpreq": "*",
+    "MD5": "*"
+  },
+  "contributors": [
+    {
+      "name": "Neon Play",
+      "url": "https://github.com/neonplay"
+    },{
+      "name": "Roger Thomas",
+      "url": "https://github.com/rogerthomas84"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "devDependencies": {
+    "nodemon": "*"
+  }
+}
