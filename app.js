@@ -28,7 +28,7 @@ var serverPort = 8081;
 var folder = './cache';
 
 // Remote prefix of URL to call (without trailing slash)
-var remotePrefix = 'https://my-remote-url.com'
+var remotePrefix = 'http://www.example.com'
 
 // Enable of disable logging
 var debug = true;
@@ -72,14 +72,16 @@ var server = http.createServer(function(req, res) {
     if (url === '/favicon.ico') {
         log('favicon.ico requested');
         res.writeHead(404);
-        res.end('Not Found');
+        res.write('');
+        res.end();
         return;
     }
     if (url === '/delete' && req.method == 'DELETE') {
         log('Delete requested');
         deleteFolderRecursive(folder + '/tmp');
         res.writeHead(200);
-        res.end('OK. Files deleted.');
+        res.write('OK. Files deleted.');
+        res.end();
         return;
     }
 
@@ -117,24 +119,39 @@ var server = http.createServer(function(req, res) {
         return;
     }
 
-    log('Caching remote version');
+    log('Retrieving remote file');
     httpreq.get(remotePrefix + url, {binary: true}, function(err, response) {
         if (err){
             log('Error downloading file: "' + remotePrefix + url + '"');
-            res.writeHead(500);
-            res.write('');
+            if (typeof response.statusCode != 'undefined') {
+                res.writeHead(response.statusCode);
+                res.write('');
+            } else {
+                log('Error message: "' + err.toString() + '"');
+                res.writeHead(500);
+                res.write('');
+            }
             res.end();
             return;
         }
 
         fs.writeFile(localFileUrl, response.body, function(err) {
+            if (response.statusCode < 200 || response.statusCode > 200) {
+                log('Error downloading file: ' + response.statusCode);
+                res.writeHead(response.statusCode);
+                res.write('Error: ' + response.statusCode);
+                res.end();
+                return;
+            }
             if (err) {
                 log('Error writing file in: "' + localFileUrl + '"');
-                res.writeHead(404);
-                res.end('');
+                res.writeHead(500);
+                res.write('');
+                res.end();
                 return;
             }
 
+            log('Caching remote file');
             var stats = fs.statSync(localFileUrl);
             log('Downloaded file: ' + ' ' + urlMd5 + ' ' + stats['size'] + ' ' + url);
             sendFile(urlMd5);
