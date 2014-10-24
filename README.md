@@ -26,10 +26,10 @@ Edit the `app.js` file.
 
 Change the following variables:
 
-`serverPort` - the port to run the application on. (Default `8081`)
-`folder` - path to local cache folder (Default `./cache`)
-`remotePrefix` - FQDN of the remote storage (Required)
-`debug` - When `true`, lots of logs are sent to the console.
+ * `serverPort` - the port to run the application on. (Default `8081`)
+ * `folder` - path to local cache folder (Default `./cache`)
+ * `remotePrefix` - FQDN of the remote storage (Required)
+ * `debug` - When `true`, lots of logs are sent to the console.
 
 Cleaning the Cache
 ------------------
