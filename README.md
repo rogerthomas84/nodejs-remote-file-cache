@@ -10,7 +10,7 @@ reduce the number of external HTTP requests to a CDN container for files.
 The idea is quite simple. If you've got a file located at: `http://www.example.com/path/to/file.jpg` then you can change the domain to the server running this file (presumably internal). The URL would look something like this:
 `http://192.168.1.1:8081/path/to/file.jpg`
 
-The file is cached (based on the MD5 of the path `/path/to/file.jpg`) and is either served directly from cache, or downloaded from the remote `http://ww.example.com` domain and then cached and served.
+The file is cached (based on the MD5 of the path `/path/to/file.jpg`) and is either served directly from cache, or downloaded from the remote `http://www.example.com` domain and then cached and served.
 
 Why use it?
 -----------
